@@ -14,6 +14,7 @@ public class Task implements Comparable<Task> {
     public String name;
     public int execution_time;
     public int period;
+    public int priority;
     public int deadline;
     public int remainingExecutionTime;
     public int taskNum;
@@ -24,6 +25,7 @@ public class Task implements Comparable<Task> {
         this.name = name;
         this.execution_time = execution_time;
         this.period = period;
+        this.priority = period;
         this.deadline = deadline;
         this.remainingExecutionTime = execution_time;
         this.taskNum = taskNum;
@@ -43,7 +45,7 @@ public class Task implements Comparable<Task> {
 
     public void startExecution() {
         for (int i = 0; i < this.requiredResources.length; i++) {
-            this.requiredResources[i].lock();
+            this.requiredResources[i].lock(this);
             this.currentResources[i] = this.requiredResources[i];
         }
     }
@@ -62,7 +64,7 @@ public class Task implements Comparable<Task> {
 
     @Override
     public int compareTo(@NonNull Task other) {
-        return this.period - other.period;
+        return this.priority - other.priority;
     }
 
     @Override
