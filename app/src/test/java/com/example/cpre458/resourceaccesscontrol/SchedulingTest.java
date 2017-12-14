@@ -9,12 +9,33 @@ import static org.junit.Assert.*;
 public class SchedulingTest {
     @Test
     public void scheduleTest() throws Exception {
-        ArrayList<Task> testList = new ArrayList<>();
-        testList.add(new Task("Sender", 3, 10, 10, 0));
-        testList.add(new Task("CPU", 2, 9, 5, 0));
-        testList.add(new Task("IO", 5, 15, 15, 0));
+        Resource[] reqs = new Resource[2];
+        Resource r1 = new Resource();
+        Resource r2 = new Resource();
 
-        Scheduling scheduler = new Scheduling(testList);
+        reqs[0] = r1;
+        reqs[1] = r2;
+
+        Resource[] senderReqs = new Resource[1];
+        Resource[] cpuReqs = new Resource[2];
+        Resource[] ioReqs = new Resource[1];
+
+        senderReqs[0] = r1;
+
+        cpuReqs[0] = r1;
+        cpuReqs[1] = r2;
+
+        ioReqs[0] = r2;
+
+        ArrayList<Task> testList = new ArrayList<>();
+        testList.add(new Task(
+                "Sender", 2, 10, 10, 0, senderReqs));
+        testList.add(new Task(
+                "CPU", 2, 5, 5, 0, cpuReqs));
+        testList.add(new Task(
+                "IO", 4, 15, 15, 0, ioReqs));
+
+        Scheduling scheduler = new Scheduling(testList, reqs);
         scheduler.RMSSchedule();
     }
 }

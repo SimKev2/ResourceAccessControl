@@ -11,20 +11,21 @@ public class Scheduling {
     public int scheduleDuration;
 
     private ArrayList<Task> taskList;
+    private Resource[] resources;
 
-    // Can change this to accept list of strings or something
-    public Scheduling(ArrayList<Task> taskList) {
-        // TODO: Verify the taskList is schedulable
-
+    public Scheduling(ArrayList<Task> taskList, Resource[] resources) {
         this.taskList = taskList;
         Collections.sort(this.taskList);
+        this.resources = resources;
+
         this.scheduleDuration = lcm(this.taskList);
     }
 
-    public void RMSSchedule() {
+    public void RMSSchedule() throws Exception {
         ArrayList<Task> taskQueue = new ArrayList<>();
         Task currentTask = null;
         Task prevTask = null;
+        Task checkTask;
         int currentTime = 0;
 
         while (currentTime < this.scheduleDuration) {
@@ -48,10 +49,26 @@ public class Scheduling {
             }
 
             Collections.sort(taskQueue);
-            currentTask = taskQueue.get(0);
+            for (int i = 0; i < taskQueue.size(); i++) {
+                checkTask = taskQueue.get(i);
+                if (currentTask == checkTask) {
+                    break;
+                }
+
+                if (checkTask.canExecute()) {
+                    checkTask.startExecution();
+                    currentTask = checkTask;
+                    break;
+                }
+                System.out.format("\tCannot execute %s\n", checkTask);
+            }
 
             if (prevTask != null && currentTask != prevTask) {
                 System.out.format("\tPreempted %s, with %s\n", prevTask, currentTask);
+            }
+
+            if (currentTask == null) {
+                throw new Exception("Schedule not feasible");
             }
 
             System.out.format("\tExecuting task: %s\n", currentTask);
@@ -59,6 +76,7 @@ public class Scheduling {
             currentTask.remainingExecutionTime -= 1;
             if (currentTask.remainingExecutionTime == 0) {
                 taskQueue.remove(currentTask);
+                currentTask.releaseResources();
                 System.out.format("\tFinished task: %s\n", currentTask);
                 currentTask = null;
                 prevTask = null;
