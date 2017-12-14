@@ -21,7 +21,8 @@ public class Scheduling {
         this.scheduleDuration = lcm(this.taskList);
     }
 
-    public void RMSSchedule() throws Exception {
+    public ArrayList<String> RMSSchedule() throws Exception {
+        ArrayList<String> schedule = new ArrayList<>();
         ArrayList<Task> taskQueue = new ArrayList<>();
         Task currentTask = null;
         Task prevTask = null;
@@ -45,6 +46,7 @@ public class Scheduling {
                 currentTime += 1;
                 currentTask = null;
                 prevTask = currentTask;
+                schedule.add(null);
                 continue;
             }
 
@@ -72,6 +74,7 @@ public class Scheduling {
             }
 
             System.out.format("\tExecuting task: %s\n", currentTask);
+            schedule.add(currentTask.toString());
             currentTime += 1;
             currentTask.remainingExecutionTime -= 1;
             if (currentTask.remainingExecutionTime == 0) {
@@ -84,6 +87,7 @@ public class Scheduling {
                 prevTask = currentTask;
             }
         }
+        return schedule;
     }
 
     private static int gcd(int a, int b) {

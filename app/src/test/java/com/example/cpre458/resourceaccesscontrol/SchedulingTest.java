@@ -36,6 +36,6 @@ public class SchedulingTest {
                 "IO", 4, 15, 15, 0, ioReqs));
 
         Scheduling scheduler = new Scheduling(testList, reqs);
-        scheduler.RMSSchedule();
+        System.out.format(scheduler.RMSSchedule().toString());
     }
 }
