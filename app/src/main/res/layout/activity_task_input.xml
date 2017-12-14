@@ -6,28 +6,42 @@
     android:layout_height="match_parent"
     tools:context="com.example.cpre458.resourceaccesscontrol.TaskInput">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
+            android:id="@+id/linear_view_buttons"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/button_rms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RMS"/>
+            <Button
+                android:id="@+id/button_rms_pi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RMS - Priority Inheritance"/>
+            <Button
+                android:id="@+id/button_rms_pc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RMS - Priority Ceiling"/>
 
-    </android.support.design.widget.AppBarLayout>
+    <!--include layout="@layout/content_task_input" /-->
 
-    <include layout="@layout/content_task_input" />
-
-    <android.support.design.widget.FloatingActionButton
+    <!--android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/ic_dialog_email" /-->
+        <ListView
+            android:id="@+id/task_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ListView>
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
