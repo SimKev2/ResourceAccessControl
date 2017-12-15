@@ -137,18 +137,8 @@ public class Scheduling {
                 }
 
                 if (checkTask.canExecute()) {
-                    checkTask.startExecution();
+                    checkTask.startCeilingExecution();
                     currentTask = checkTask;
-                    break;
-                }
-                else {
-                    for (Resource r : checkTask.requiredResources) {
-                        if (r.owner != null) {
-                            r.owner.priority = r.priority;
-                            currentTask = r.owner;
-                            System.out.format("\tRaising %s to priority %d\n", r.owner, r.priority);
-                        }
-                    }
                     break;
                 }
             }

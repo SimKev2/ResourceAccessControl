@@ -50,6 +50,20 @@ public class Task implements Comparable<Task> {
         }
     }
 
+    public void startCeilingExecution() {
+        for (int i = 0; i < this.requiredResources.length; i++) {
+            this.requiredResources[i].lock(this);
+            if (this.requiredResources[i].priority > this.priority) {
+                this.priority = this.requiredResources[i].priority;
+                System.out.format(
+                    "\tRaising %s to priority %d\n",
+                    this.toString(),
+                    this.requiredResources[i].priority);
+            }
+            this.currentResources[i] = this.requiredResources[i];
+        }
+    }
+
     public void releaseResources() {
         for (Resource r : this.requiredResources) {
             r.unlock();

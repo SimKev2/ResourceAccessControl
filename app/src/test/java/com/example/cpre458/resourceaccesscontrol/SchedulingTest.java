@@ -100,6 +100,6 @@ public class SchedulingTest {
                 "IO", 4, 15, 15, 0, ioReqs));
 
         Scheduling scheduler = new Scheduling(testList, reqs);
-        System.out.format(scheduler.PriorityCeiling().toString());
+        System.out.format(scheduler.PriorityInheritance().toString());
     }
 }
