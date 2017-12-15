@@ -25,17 +25,6 @@ public class TaskInput extends AppCompatActivity implements  View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_input);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         ((Button) findViewById(R.id.button_rms)).setOnClickListener(this);
         ((Button) findViewById(R.id.button_rms_pi)).setOnClickListener(this);
@@ -50,8 +39,10 @@ public class TaskInput extends AppCompatActivity implements  View.OnClickListene
                 createSchedule(0);
                 break;
             case R.id.button_rms_pi:
+                createSchedule(1);
                 break;
             case R.id.button_rms_pc:
+                createSchedule(2);
                 break;
         }
     }
@@ -60,34 +51,33 @@ public class TaskInput extends AppCompatActivity implements  View.OnClickListene
     public void createSchedule(int schedule_type)
     {
         ArrayList<Task> taskList;
-        Resource[] resources = {};
-        ArrayList<String> taskSchedule;
+        ArrayList<String> taskSchedule = null;
 
-        taskList = null;//TODO
+        Resource r1 = new Resource();
+        Resource[] resources = {r1};
 
-        switch (schedule_type) {
-            case 0:
-                Log.d("Gen task", "Generating...");
-                taskList = generateTaskList();
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                break;
-        }
-
+        taskList = generateTaskList(resources);
         Scheduling s = new Scheduling(taskList, resources);
         try {
-            taskSchedule = s.RMSSchedule();
+            switch (schedule_type) {
+                case 0:
+                    taskSchedule = s.RMSSchedule();
+                    break;
+                case 1:
+                    taskSchedule = s.PriorityInheritance();
+                    break;
+                case 2:
+                    taskSchedule = s.PriorityCeiling();
+                    break;
+                default:
+                    break;
+            }
         }
         catch (Exception e)
         {
             taskSchedule = new ArrayList<>(); //no schedule produced, make empty list
         }
 
-        //List<Entry> entries = new ArrayList<Entry>();
         ArrayList<TaskListItem> taskitemList = new ArrayList<>();
         int len = taskSchedule.size();
         for (int i=0;i<len;i++)
@@ -107,13 +97,18 @@ public class TaskInput extends AppCompatActivity implements  View.OnClickListene
         lv.setAdapter(adapter);
     }
 
-    private ArrayList<Task> generateTaskList()
+    private ArrayList<Task> generateTaskList(Resource[] res1)
     {
         ArrayList<Task> ret = new ArrayList<>();
-        Resource[] res1 = {};
-        Task t1 = new Task("T1", 5, 10,20,1, res1);
-        Task t2 = new Task("T2", 3, 10,15,2, res1);
-        Task t3 = new Task("T3", 1, 10,10,3, res1);
+//        Task t1 = new Task("T1", 2, 5,5,1, res1);
+//        Task t2 = new Task("T2", 4, 10,10,2, res1);
+//        Task t3 = new Task("T3", 8, 20,20,3, res1);
+
+        Resource[] none = {};
+
+        Task t1 = new Task("T1", 2, 5,5,1, res1);
+        Task t2 = new Task("T2", 4, 10,10,2, none);
+        Task t3 = new Task("T3", 5, 20,20,3, res1);
         ret.add(t1);
         ret.add(t2);
         ret.add(t3);

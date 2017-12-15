@@ -54,7 +54,7 @@ public class TaskAdapter extends BaseAdapter {
         TextView tasktext = row.findViewById(R.id.task_text);
         TaskListItem t = data.get(position);
 
-        String s = "Time: " + t.getTime();
+        String s = "Time: " + (t.getTime()+1);
         timetext.setText(s);
         s = "Task: " + t.getName();
         tasktext.setText(s);
